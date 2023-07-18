@@ -8,7 +8,7 @@
   <link rel="stylesheet" href="css/nav.css">
   <link rel="stylesheet" href="css/forms.css">
   <style>
-    #output{
+    #container{
         border-radius:5px;
         min-height:40px;
         border:1px solid black;
@@ -20,7 +20,7 @@
  </head>
  <body>
      <header>
-     <h1 class="page-header">Title-case </h1>
+     <h1 class="page-header">Get-Even </h1>
         <nav class="topnav" id="myTopnav">
             <a href="index.html" class="active">Home</a>
             <a href="#">Link</a>
@@ -57,21 +57,36 @@
   <script src="js/main.js"></script>   
   <script> 
 
-    function titleCase(str){
-      return str = str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
-      
+    function getEven(num){
+      if(num % 2==0){//even!
+        return true;
+      }else{//odd!
+          return false;
+      }
+
     }
 
-    const mySubmit = document.querySelector("#submit");
-    console.log(mySubmit);
+    const queryString = window.location.search;
+    console.log(queryString);
 
-     mySubmit.addEventListener("click",function(ev){
-        ev.preventDefault();
-        const myInput = document.querySelector("#input");
-        const myOutput = document.querySelector("#output");
-        myOutput.innerHTML = titleCase(myInput.value);
-        //alert(myInput.value);
-     });
+    const urlParams = new URLSearchParams(queryString);
+
+    if(queryString.length > 0){// data submitted
+      let myOutput = `<div id="container">`;
+        if(urlParams.has("input")){
+          //alert(urlParams.get("input"));
+          let myInput = urlParams.get("input");
+
+          if(getEven(myInput)){
+            myOutput += `<p>You typed <b>${myInput}</b> and it's an even number</p>`;
+          }else{
+            myOutput += `<p>You typed <b>${myInput}</b> and it's an odd number</p>`;
+          }
+
+        }
+      myOutput += `</div>`;
+      document.querySelector("#output").innerHTML = myOutput;
+    }
 
   </script>
  </body>
